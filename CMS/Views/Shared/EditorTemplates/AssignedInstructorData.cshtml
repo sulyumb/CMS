@@ -1,0 +1,10 @@
+﻿
+@model  CMS.Models.AssignedInstructorData
+@using CMS.Models
+
+<fieldset>
+    @Html.HiddenFor(model => model.InstructorID)
+    @Html.CheckBoxFor(model => model.Assigned)
+    @Html.DisplayFor(model => model.FirstName)
+
+</fieldset>
