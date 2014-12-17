@@ -15,8 +15,6 @@ namespace CMS.Models
         public DateTime JoinedDate { get; set; }
 
         public bool Assigned { get; set; }
-  
-
-        
+ 
     }
 }

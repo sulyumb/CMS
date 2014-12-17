@@ -160,6 +160,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlocksController.cs" />
+    <Compile Include="Controllers\HallsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorsController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
@@ -167,6 +168,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AssignedHallData.cs" />
     <Compile Include="Models\AssignedInstructorData.cs" />
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\CMSContext.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Models\Instructor.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Session.cs" />
+    <Compile Include="Models\SessionInitializer.cs" />
     <Compile Include="Models\SessionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -258,6 +261,12 @@
     <Content Include="Views\Instructors\Edit.cshtml" />
     <Content Include="Views\Instructors\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AssignedInstructorData.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AssignedHallData.cshtml" />
+    <Content Include="Views\Halls\Create.cshtml" />
+    <Content Include="Views\Halls\Delete.cshtml" />
+    <Content Include="Views\Halls\Details.cshtml" />
+    <Content Include="Views\Halls\Edit.cshtml" />
+    <Content Include="Views\Halls\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

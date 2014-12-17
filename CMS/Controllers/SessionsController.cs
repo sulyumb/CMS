@@ -13,7 +13,7 @@ namespace CMS.Controllers
     public class SessionsController : Controller
     {
         private CMSContext db = new CMSContext();
-
+       
         // GET: Sessions
         public ActionResult Index()
         {
@@ -58,18 +58,70 @@ namespace CMS.Controllers
             return assignedInstructors ;
         }
 
+        private ICollection<AssignedHallData> PopulateHallData()
+        {
+            var Halls = db.Halls;
+            var assignedHalls = new List<AssignedHallData>();
+
+            foreach (var item in Halls)
+            {
+                assignedHalls.Add(new AssignedHallData
+                {
+                    HallID = item.HallID,
+                    Room = item.Room,
+                    SeatNo = item.SeatNo,
+                    Assigned = false
+                });
+            }
+            return assignedHalls;
+        }
+
         private void AddOrUpdateInstructors(Session session, IEnumerable<AssignedInstructorData> assignedInstructors)
         {
             foreach (var assignedInstructor in assignedInstructors)
             {
                 if (assignedInstructor.Assigned)
                 {
-                    var Instructor = new Instructor { InstructorID = assignedInstructor.InstructorID   };
+                    var Instructor = new Instructor {
+                        InstructorID = assignedInstructor.InstructorID,
+                        FirstName = assignedInstructor.FirstName,
+                        JoinedDate = assignedInstructor.JoinedDate,
+                        LastName =assignedInstructor.LastName,
+                        Speciality = assignedInstructor.Speciality
+                    };
                     db.Instructors.Attach(Instructor);
                     session.Instructors.Add(Instructor);
                 }
             }
 
+            //foreach (var assignedHall in assignedHalls)
+            //{
+            //    if (assignedHall.Assigned)
+            //    {
+            //        var Hall = new Hall { HallID = assignedHall.HallID };
+            //        db.Halls.Attach(Hall);
+            //        session.Halls.Add(Hall);
+            //    }
+            //}
+
+        }
+
+        private void AddOrUpdateHalls(Session session, IEnumerable<AssignedHallData> assignedHalls)
+        {
+            foreach (var assignedHall in assignedHalls)
+            {
+                if (assignedHall.Assigned)
+                {
+                    var hall = new Hall
+                    {
+                        HallID = assignedHall.HallID,
+                        SeatNo = assignedHall.SeatNo,
+                        Room = assignedHall.Room
+                    };
+                    db.Halls.Attach(hall);
+                    session.Halls.Add(hall);
+                }
+            }
         }
 
 
@@ -77,7 +129,7 @@ namespace CMS.Controllers
         public ActionResult Create()
         {
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name");
-            var sessionViewModel = new SessionViewModel { Instructors =PopulateInstructorData()  };
+            var sessionViewModel = new SessionViewModel { Instructors =PopulateInstructorData(), Halls = PopulateHallData() };
 
             return View(sessionViewModel);
         }
@@ -110,9 +162,13 @@ namespace CMS.Controllers
                     Year = sessionViewModel.Year
                 };
 
-                AddOrUpdateInstructors(session, sessionViewModel.Instructors);
+                AddOrUpdateInstructors(session, sessionViewModel.Instructors );
+                AddOrUpdateHalls(session, sessionViewModel.Halls);
+
                 db.Sessions.Add(session);
                 db.SaveChanges();
+
+        
                 return RedirectToAction("Index");
             }
 
@@ -184,8 +240,11 @@ namespace CMS.Controllers
             if (disposing)
             {
                 db.Dispose();
+
             }
             base.Dispose(disposing);
         }
+
+     
     }
 }

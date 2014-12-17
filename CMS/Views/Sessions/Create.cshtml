@@ -125,6 +125,16 @@
             <div class="col-md-10">
                 @Html.DisplayFor(x => x.Instructors)
                 @Html.EditorFor(x => x.Instructors)
+                @Html.ValidationMessageFor(x => x.Instructors, "" , new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(y => y.Halls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(y => y.Halls)
+                @Html.EditorFor(y => y.Halls)
+                @Html.ValidationMessageFor(y => y.Halls, "", new { @class = "text-danger" })
             </div>
         </div>
 

@@ -98,6 +98,8 @@ namespace CMS.Models
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Objectives { get; set; }
 
+        public virtual ICollection<AssignedHallData> Halls { get; set; }
+
         public virtual ICollection<AssignedInstructorData> Instructors { get; set; }
     }
 }

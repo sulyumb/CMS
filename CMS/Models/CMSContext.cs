@@ -21,11 +21,18 @@ namespace CMS.Models
         {
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+
             modelBuilder.Entity<Instructor>()
                 .HasMany(c => c.Sessions).WithMany(i => i.Instructors)
                 .Map(t => t.MapLeftKey("InstructorID")
                 .MapRightKey("SessionID")
                 .ToTable("SessionInstructor"));
+
+            modelBuilder.Entity<Hall>()
+              .HasMany(c => c.Sessions).WithMany(i => i.Halls)
+              .Map(t => t.MapLeftKey("HallID")
+              .MapRightKey("SessionID")
+              .ToTable("SessionHall"));
 
             //modelBuilder.Entity<Block>().HasMany<Session>(s => s.Sessinos)
             //    .WithRequired(s => s.Block).HasForeignKey(s => s.BlockID);

@@ -55,6 +55,7 @@ namespace CMS.Models
         public Session()
         {
             Instructors = new List<Instructor>();
+            Halls = new List<Hall>();
         }
 
 
@@ -106,8 +107,7 @@ namespace CMS.Models
 
         public virtual ICollection<Instructor> Instructors { get; set; }
 
-        //public virtual ICollection<Hall> Halls { get; set; }
-
-        
+        public virtual ICollection<Hall> Halls { get; set; }
+  
     }
 }

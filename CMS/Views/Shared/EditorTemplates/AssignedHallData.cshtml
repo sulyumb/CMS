@@ -1,0 +1,9 @@
+﻿@model CMS.Models.AssignedHallData
+@using CMS.Models
+
+<fieldset>
+    @Html.HiddenFor(model => model.HallID)
+    @Html.CheckBoxFor(model => model.Assigned)
+    @Html.DisplayFor(model => model.Room)
+</fieldset>
+

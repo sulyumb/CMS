@@ -53,6 +53,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Instructors)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Halls)
+        </th>
         <th></th>
     </tr>
 
@@ -100,9 +103,15 @@
         <td>
             @foreach (var i in item.Instructors)
             {
-                @i.FullName
+                @i.LastName
             }
         </td>
+        <td>
+            @foreach (var i in item.Halls)
+            {
+                @i.Room
+            }
+         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.SessionID }) |
             @Html.ActionLink("Details", "Details", new { id=item.SessionID }) |
