@@ -78,50 +78,63 @@ namespace CMS.Controllers
 
         private void AddOrUpdateInstructors(Session session, IEnumerable<AssignedInstructorData> assignedInstructors)
         {
-            foreach (var assignedInstructor in assignedInstructors)
+            if (assignedInstructors == null) return;
+
+
+            if (session.SessionID != 0)
             {
-                if (assignedInstructor.Assigned)
+                foreach (var instructor in session.Instructors.ToList())
                 {
-                    var Instructor = new Instructor {
-                        InstructorID = assignedInstructor.InstructorID,
-                        FirstName = assignedInstructor.FirstName,
-                        JoinedDate = assignedInstructor.JoinedDate,
-                        LastName =assignedInstructor.LastName,
-                        Speciality = assignedInstructor.Speciality
-                    };
-                    db.Instructors.Attach(Instructor);
-                    session.Instructors.Add(Instructor);
+                    session.Instructors.Remove(instructor);
+                }
+
+                foreach (var instructor in assignedInstructors.Where(w => w.Assigned))
+                {
+                    session.Instructors.Add(db.Instructors.Find(instructor.InstructorID));
+                }
+            }
+            else
+            {
+                //new hall
+                foreach (var assignedInstructor in assignedInstructors.Where(w => w.Assigned))
+                {
+                    var instructor = new Instructor {  InstructorID = assignedInstructor.InstructorID };
+                    db.Instructors.Attach(instructor);
+                    session.Instructors.Add(instructor);
                 }
             }
 
-            //foreach (var assignedHall in assignedHalls)
-            //{
-            //    if (assignedHall.Assigned)
-            //    {
-            //        var Hall = new Hall { HallID = assignedHall.HallID };
-            //        db.Halls.Attach(Hall);
-            //        session.Halls.Add(Hall);
-            //    }
-            //}
 
         }
 
         private void AddOrUpdateHalls(Session session, IEnumerable<AssignedHallData> assignedHalls)
         {
-            foreach (var assignedHall in assignedHalls)
+            if (assignedHalls == null) return;
+
+
+            if (session.SessionID != 0)
             {
-                if (assignedHall.Assigned)
+                foreach (var hall in session.Halls.ToList())
                 {
-                    var hall = new Hall
-                    {
-                        HallID = assignedHall.HallID,
-                        SeatNo = assignedHall.SeatNo,
-                        Room = assignedHall.Room
-                    };
+                    session.Halls.Remove(hall);
+                }
+
+                foreach (var hall in assignedHalls.Where(w => w.Assigned))
+                {
+                    session.Halls.Add(db.Halls.Find(hall.HallID));
+                }
+            }
+            else
+            {
+                //new hall
+                foreach (var assignedHall in assignedHalls.Where(w => w.Assigned))
+                {
+                    var hall = new Hall { HallID = assignedHall.HallID };
                     db.Halls.Attach(hall);
                     session.Halls.Add(hall);
                 }
             }
+            
         }
 
 
@@ -147,16 +160,14 @@ namespace CMS.Controllers
                 var session = new Session
                 {
                     ActivitySubject = sessionViewModel.ActivitySubject,
-                    ActivityT = Models.Session.ActivityType.IntroductionTotheBlock,
+                    ActivityT = sessionViewModel.ActivityT,
                     Block = sessionViewModel.Block,
                     BlockID = sessionViewModel.BlockID,
                     Date = sessionViewModel.Date,
                     Day = sessionViewModel.Day,
-
                     StartTime = sessionViewModel.StartTime,
                     EndTime = sessionViewModel.EndTime,
                     Objectives = sessionViewModel.Objectives,
-
                     Theme = sessionViewModel.Theme,
                     Week_no = sessionViewModel.Week_no,
                     Year = sessionViewModel.Year
@@ -176,20 +187,55 @@ namespace CMS.Controllers
             return View(sessionViewModel);
         }
 
+        //private void AddOrUpdateCourses(UserProfile userProfile, IEnumerable<AssignedCourseData> assignedCourses)
+        //{
+        //    if (assignedCourses == null) return;
+
+        //    if (userProfile.UserProfileID != 0)
+        //    {
+        //        // Existing user - drop existing courses and add the new ones if any
+        //        foreach (var course in userProfile.Courses.ToList())
+        //        {
+        //            userProfile.Courses.Remove(course);
+        //        }
+
+        //        foreach (var course in assignedCourses.Where(c => c.Assigned))
+        //        {
+        //            userProfile.Courses.Add(db.Courses.Find(course.CourseID));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // New user
+        //        foreach (var assignedCourse in assignedCourses.Where(c => c.Assigned))
+        //        {
+        //            var course = new Course { CourseID = assignedCourse.CourseID };
+        //            db.Courses.Attach(course);
+        //            userProfile.Courses.Add(course);
+        //        }
+        //    }
+        //}
+
         // GET: Sessions/Edit/5
         public ActionResult Edit(int? id)
         {
+            var allInstructors = db.Instructors.ToList();
+            
+            var allHalls = db.Halls.ToList();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = db.Sessions.Find(id);
+            Session session = db.Sessions.Include("Instructors").FirstOrDefault(x => x.SessionID == id);
+            //session = db.Sessions.Include("Halls").FirstOrDefault(x => x.SessionID == id);
             if (session == null)
             {
                 return HttpNotFound();
             }
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", session.BlockID);
-            return View(session);
+            var sessionViewModel = session.ToViewModel(allInstructors,allHalls);
+            //var sessionViewModel = new SessionViewModel { Instructors = PopulateInstructorData(), Halls = PopulateHallData() };
+            return View(sessionViewModel);
         }
 
         // POST: Sessions/Edit/5
@@ -197,16 +243,23 @@ namespace CMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SessionID,ActivitySubject,Year,Week_no,BlockID,Theme,Day,Date,StartTime,EndTime,ActivityT,StatusT,Descipline,Objectives")] Session session)
+        //public ActionResult Edit([Bind(Include = "SessionID,ActivitySubject,Year,Week_no,BlockID,Theme,Day,Date,StartTime,EndTime,ActivityT,StatusT,Descipline,Objectives")] Session session)
+        public ActionResult Edit(SessionViewModel sessionViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(session).State = EntityState.Modified;
+                var originalsession = db.Sessions.Find(sessionViewModel.SessionID);
+                AddOrUpdateInstructors(originalsession, sessionViewModel.Instructors);
+                AddOrUpdateHalls(originalsession, sessionViewModel.Halls);
+                //db.Entry(originalsession).State = EntityState.Modified;
+                //db.Entry(originalUserProfile).CurrentValues.SetValues(userProfileViewModel);
+                db.Entry(originalsession).CurrentValues.SetValues(sessionViewModel);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", session.BlockID);
-            return View(session);
+            ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", sessionViewModel.BlockID);
+            return View(sessionViewModel);
         }
 
         // GET: Sessions/Delete/5

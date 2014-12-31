@@ -11,45 +11,45 @@ namespace CMS.Models
     public class Session
     {
       
-        public enum ActivityType
-        {
-            Lecture,
-            IntroductionTotheBlock,
-            BasicandClinicalScience,
-            ProblemBasedLearning,
-            Other,
-            Laboratory,
-            ClinicalDiagnosticSkills,
-            ProceduralSkills,
-            ClinicalSkillsTraining,
-            PracticalSkills,
-            CaseBasedLearning,
-            CompensationComputation,
-            CommunityAndDoctor,
-            EvidenceBasedMedicine,
-            PatientAndDoctor,
-            PersonalAndProfessionalDevelopment,
-            IntegrativeTheme,
-            OSCE,
-            OSPE,
-            Exam,
-            Tutorial
-        }
+        //public enum ActivityType
+        //{
+        //    Lecture = 0,
+        //    IntroductionTotheBlock =1,
+        //    BasicandClinicalScience=2,
+        //    ProblemBasedLearning=3,
+        //    Other=4,
+        //    Laboratory=5,
+        //    ClinicalDiagnosticSkills=6,
+        //    ProceduralSkills=7,
+        //    ClinicalSkillsTraining=8,
+        //    PracticalSkills=9,
+        //    CaseBasedLearning=10,
+        //    CompensationComputation=11,
+        //    CommunityAndDoctor=12,
+        //    EvidenceBasedMedicine=13,
+        //    PatientAndDoctor=14,
+        //    PersonalAndProfessionalDevelopment=15,
+        //    IntegrativeTheme=16,
+        //    OSCE=17,
+        //    OSPE=18,
+        //    Exam=19,
+        //    Tutorial=20
+        //}
 
-        public enum StatusType
-        {
-            GQ,
-            YS,
-            RS,
-            YQ,
-            RQ
-        }
+        //public enum StatusType
+        //{
+        //    GQ=0,
+        //    YS=1,
+        //    RS=2,
+        //    YQ=3,
+        //    RQ=4
+        //}
 
         public enum Disciplines
         {
-            Anatomy,
-            Histology,
-            Cardiology
+            Anatomy=0,
+            Histology=1,
+            Cardiology=2
         }
 
         public Session()
@@ -93,10 +93,10 @@ namespace CMS.Models
         public DateTime EndTime { get; set; }
 
         [DisplayName("Activity Type")]
-        public ActivityType ActivityT { get; set; }
+        public string ActivityT { get; set; }
 
         [DisplayName("Status")]
-        public StatusType StatusT { get; set; }
+        public string StatusT { get; set; }
 
         [DisplayName("Discipline")]
         public Disciplines? Descipline { get; set; }

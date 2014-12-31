@@ -37,7 +37,7 @@ namespace CMS.Models
                  new Session {
                      Year ="2014" ,
                      ActivitySubject = "Introduction" ,
-                     ActivityT = Session.ActivityType.Lecture ,
+                     //ActivityT = Session.ActivityType.Lecture ,
                      Date = DateTime.Parse("2014-02-01") ,
                      Day = DayOfWeek.Sunday ,
                      StartTime = DateTime.Parse("08:00:00") , EndTime = DateTime.Parse("10:00:00"),
@@ -49,7 +49,7 @@ namespace CMS.Models
                    new Session {
                      Year ="2014" ,
                      ActivitySubject = "FirstLecture" ,
-                     ActivityT = Session.ActivityType.BasicandClinicalScience ,
+                     //ActivityT = Session.ActivityType.BasicandClinicalScience ,
                      Date = DateTime.Parse("2014-02-01") ,
                      Day = DayOfWeek.Sunday ,
                      StartTime = DateTime.Parse("10:00:00") , EndTime = DateTime.Parse("12:00:00"),
@@ -61,7 +61,7 @@ namespace CMS.Models
                   new Session {
                      Year ="2014" ,
                      ActivitySubject = "Social Health" ,
-                     ActivityT = Session.ActivityType.CaseBasedLearning ,
+                     //ActivityT = Session.ActivityType.CaseBasedLearning ,
                      Date = DateTime.Parse("2014-03-01") ,
                      Day = DayOfWeek.Sunday ,
                      StartTime = DateTime.Parse("08:00:00") , EndTime = DateTime.Parse("10:00:00"),
@@ -98,9 +98,9 @@ namespace CMS.Models
 
             var Halls = new List<Hall>
               {
-                 new Hall {   Room = "KingFaisal"    },
-                 new Hall {  Room = "Room1"    },
-                 new Hall {  Room = "Room2"   }
+                 new Hall {  Room = "KingFaisal" , SeatNo=156   },
+                 new Hall {  Room = "Room1"  , SeatNo= 258  },
+                 new Hall {  Room = "Room2" ,  SeatNo=400  }
               };
 
             foreach (var i in Halls)
