@@ -270,6 +270,7 @@
     <Content Include="Views\Halls\Details.cshtml" />
     <Content Include="Views\Halls\Edit.cshtml" />
     <Content Include="Views\Halls\Index.cshtml" />
+    <Content Include="Views\Sessions\UploadDocument.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

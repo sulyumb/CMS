@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CMS.Models;
+using System.IO;
 
 namespace CMS.Controllers
 {
@@ -298,6 +299,71 @@ namespace CMS.Controllers
             base.Dispose(disposing);
         }
 
-     
+        public ActionResult UploadDocument()
+        {
+            var dir = new DirectoryInfo(Server.MapPath("~/Content/images/"));
+            FileInfo[] fileNames = dir.GetFiles("*.*");
+            //Directory.GetFiles("~/content/images/");
+            List<string> items = new List<string>();
+
+            foreach (var file in fileNames)
+            {
+                items.Add(file.Name);
+            }
+
+            return View(items);
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/images/"), fileName);
+                file.SaveAs(path);
+            }
+
+            return RedirectToAction("UploadDocument");
+        }
+
+        /*public ActionResult List()
+02
+        {
+03
+            var uploadedFiles = new List<UploadedFile>();
+04
+ 
+05
+            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
+06
+ 
+07
+            foreach(var file in files)
+08
+            {
+09
+                var fileInfo = new FileInfo(file);
+10
+ 
+11
+                var uploadedFile = new UploadedFile() {Name = Path.GetFileName(file)};
+12
+                uploadedFile.Size = fileInfo.Length;
+13
+ 
+14
+                uploadedFile.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
+15
+                uploadedFiles.Add(uploadedFile);
+16
+            }
+17
+ 
+18
+            return View(uploadedFiles);
+19
+        }
+*/
     }
 }
