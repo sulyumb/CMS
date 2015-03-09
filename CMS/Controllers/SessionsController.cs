@@ -13,8 +13,8 @@ namespace CMS.Controllers
 {
     public class SessionsController : Controller
     {
-        private CMSContext db = new CMSContext();
-       
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Sessions
         public ActionResult Index()
         {
@@ -53,10 +53,10 @@ namespace CMS.Controllers
                     JoinedDate = item.JoinedDate,
                     Speciality = item.Speciality,
 
-                    Assigned =false 
+                    Assigned = false
                 });
             }
-            return assignedInstructors ;
+            return assignedInstructors;
         }
 
         private ICollection<AssignedHallData> PopulateHallData()
@@ -99,7 +99,7 @@ namespace CMS.Controllers
                 //new hall
                 foreach (var assignedInstructor in assignedInstructors.Where(w => w.Assigned))
                 {
-                    var instructor = new Instructor {  InstructorID = assignedInstructor.InstructorID };
+                    var instructor = new Instructor { InstructorID = assignedInstructor.InstructorID };
                     db.Instructors.Attach(instructor);
                     session.Instructors.Add(instructor);
                 }
@@ -135,7 +135,7 @@ namespace CMS.Controllers
                     session.Halls.Add(hall);
                 }
             }
-            
+
         }
 
 
@@ -143,7 +143,7 @@ namespace CMS.Controllers
         public ActionResult Create()
         {
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name");
-            var sessionViewModel = new SessionViewModel { Instructors =PopulateInstructorData(), Halls = PopulateHallData() };
+            var sessionViewModel = new SessionViewModel { Instructors = PopulateInstructorData(), Halls = PopulateHallData() };
 
             return View(sessionViewModel);
         }
@@ -156,8 +156,13 @@ namespace CMS.Controllers
         //public ActionResult Create([Bind(Include = "SessionID,ActivitySubject,Year,Week_no,BlockID,Theme,Day,Date,StartTime,EndTime,ActivityT,StatusT,Descipline,Objectives")] Session session)
         public ActionResult Create(SessionViewModel sessionViewModel)
         {
+
+            //var listValid = new List<SessionViewModel.Disciplines>() { Activity.StatusEnum.Open, Activity.StatusEnum.Rejected, Activity.StatusEnum.Accepted, Activity.StatusEnum.Started };
+            //return Enum.GetValues(typeof(Activity.StatusEnum)).Cast<Activity.StatusEnum>().Where(n => listValid.Contains(n));
+           
             if (ModelState.IsValid)
             {
+                var statusList = new List<SessionViewModel.Disciplines>() { SessionViewModel.Disciplines.Anatomy, SessionViewModel.Disciplines.Cardiology, SessionViewModel.Disciplines.Histology };
                 var session = new Session
                 {
                     ActivitySubject = sessionViewModel.ActivitySubject,
@@ -172,15 +177,17 @@ namespace CMS.Controllers
                     Theme = sessionViewModel.Theme,
                     Week_no = sessionViewModel.Week_no,
                     Year = sessionViewModel.Year
-                };
+                   
+                                   
+                    };
 
-                AddOrUpdateInstructors(session, sessionViewModel.Instructors );
+                AddOrUpdateInstructors(session, sessionViewModel.Instructors);
                 AddOrUpdateHalls(session, sessionViewModel.Halls);
 
                 db.Sessions.Add(session);
                 db.SaveChanges();
 
-        
+
                 return RedirectToAction("Index");
             }
 
@@ -221,7 +228,7 @@ namespace CMS.Controllers
         public ActionResult Edit(int? id)
         {
             var allInstructors = db.Instructors.ToList();
-            
+
             var allHalls = db.Halls.ToList();
             if (id == null)
             {
@@ -234,7 +241,7 @@ namespace CMS.Controllers
                 return HttpNotFound();
             }
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", session.BlockID);
-            var sessionViewModel = session.ToViewModel(allInstructors,allHalls);
+            var sessionViewModel = session.ToViewModel(allInstructors, allHalls);
             //var sessionViewModel = new SessionViewModel { Instructors = PopulateInstructorData(), Halls = PopulateHallData() };
             return View(sessionViewModel);
         }
@@ -327,43 +334,44 @@ namespace CMS.Controllers
             return RedirectToAction("UploadDocument");
         }
 
-        /*public ActionResult List()
-02
+        /*
+             public ActionResult List()
+ 
         {
-03
+ 
             var uploadedFiles = new List<UploadedFile>();
-04
  
-05
+ 
+ 
             var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
-06
  
-07
+ 
+ 
             foreach(var file in files)
-08
+ 
             {
-09
-                var fileInfo = new FileInfo(file);
-10
+               var fileInfo = new FileInfo(file);
  
-11
+ 
+ 
                 var uploadedFile = new UploadedFile() {Name = Path.GetFileName(file)};
-12
+ 
                 uploadedFile.Size = fileInfo.Length;
-13
  
-14
+ 
+ 
                 uploadedFile.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
-15
+
                 uploadedFiles.Add(uploadedFile);
-16
+
             }
-17
+
  
-18
+
             return View(uploadedFiles);
-19
+
         }
 */
     }
 }
+

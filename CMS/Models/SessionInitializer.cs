@@ -7,9 +7,9 @@ using CMS.Models;
 
 namespace CMS.Models
 {
-    public class SessionInitializer : DropCreateDatabaseIfModelChanges<CMSContext>
+    public class SessionInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
-        protected override void Seed(CMSContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
 
             var blocks = new List<Block>
@@ -29,9 +29,7 @@ namespace CMS.Models
             context.SaveChanges();
 
 
-           
-
-
+    
             var sessions = new List<Session>
             {
                  new Session {

@@ -100,7 +100,7 @@ namespace CMS.Models
 
         [DisplayName("Discipline")]
         public Disciplines? Descipline { get; set; }
-
+      
         //to make string optional
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Objectives { get; set; }
@@ -108,5 +108,16 @@ namespace CMS.Models
         public virtual ICollection<AssignedHallData> Halls { get; set; }
 
         public virtual ICollection<AssignedInstructorData> Instructors { get; set; }
+
+        public static List<Disciplines> StatusList()
+        {
+            return new List<Disciplines>
+        {
+
+              SessionViewModel.Disciplines.Anatomy,
+              SessionViewModel.Disciplines.Cardiology,
+              SessionViewModel.Disciplines.Histology
+         };
+        }
     }
 }

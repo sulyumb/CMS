@@ -59,77 +59,78 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Block.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivitySubject)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Week_no)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Theme)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivityT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StatusT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descipline)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Objectives)
-        </td>
-        <td>
-            @foreach (var i in item.Instructors)
-            {
-                @i.LastName
-            }
-        </td>
-        <td>
-            @foreach (var i in item.Halls)
-            {
-                @i.Room
-            }
-         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SessionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SessionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SessionID })
-        </td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Block.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivitySubject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Week_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Theme)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descipline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Objectives)
+            </td>
+            <td>
+                @foreach (var i in item.Instructors)
+                {
+                    @i.LastName
+                }
+            </td>
+            <td>
+                @foreach (var i in item.Halls)
+                {
+                    @i.Room
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.SessionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SessionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SessionID })
+            </td>
 
-    </tr>
-    @*<tr>
-        @*<td>
-        <form id="form1" runat="server">
-            <asp:FileUpload id="FileUploadControl" runat="server" />
-            <asp:Button runat="server" id="UploadButton" text="Upload" onclick="UploadButton_Click" />
-            <br /><br />
-            <asp:Label runat="server" id="StatusLabel" text="Upload status: " />
-        </form>
-            </td>*@
-        </tr>*@
+        </tr>
+        @*<tr>
+            @*<td>
+            <form id="form1" runat="server">
+                <asp:FileUpload id="FileUploadControl" runat="server" />
+                <asp:Button runat="server" id="UploadButton" text="Upload" onclick="UploadButton_Click" />
+                <br /><br />
+                <asp:Label runat="server" id="StatusLabel" text="Upload status: " />
+            </form>
+                </td>*@
 
-}
+
+    }
 
 </table>

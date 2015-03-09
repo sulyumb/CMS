@@ -37,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -163,15 +164,17 @@
     <Compile Include="Controllers\HallsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorsController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\AssignedHallData.cs" />
     <Compile Include="Models\AssignedInstructorData.cs" />
     <Compile Include="Models\Block.cs" />
-    <Compile Include="Models\CMSContext.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Hall.cs" />
     <Compile Include="Models\HallViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -186,10 +189,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\CMSContext.mdf" />
-    <Content Include="App_Data\CMSContext_log.ldf">
-      <DependentUpon>CMSContext.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -198,6 +197,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\almozainisu.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -217,7 +217,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -248,36 +250,39 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Blocks\Create.cshtml" />
-    <Content Include="Views\Blocks\Delete.cshtml" />
-    <Content Include="Views\Blocks\Details.cshtml" />
-    <Content Include="Views\Blocks\Edit.cshtml" />
-    <Content Include="Views\Blocks\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AssignedInstructorData.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AssignedHallData.cshtml" />
     <Content Include="Views\Sessions\Create.cshtml" />
     <Content Include="Views\Sessions\Delete.cshtml" />
     <Content Include="Views\Sessions\Details.cshtml" />
     <Content Include="Views\Sessions\Edit.cshtml" />
     <Content Include="Views\Sessions\Index.cshtml" />
+    <Content Include="Views\Blocks\Create.cshtml" />
+    <Content Include="Views\Blocks\Delete.cshtml" />
+    <Content Include="Views\Blocks\Details.cshtml" />
+    <Content Include="Views\Blocks\Edit.cshtml" />
+    <Content Include="Views\Blocks\Index.cshtml" />
     <Content Include="Views\Instructors\Create.cshtml" />
     <Content Include="Views\Instructors\Delete.cshtml" />
     <Content Include="Views\Instructors\Details.cshtml" />
     <Content Include="Views\Instructors\Edit.cshtml" />
     <Content Include="Views\Instructors\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\AssignedInstructorData.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\AssignedHallData.cshtml" />
     <Content Include="Views\Halls\Create.cshtml" />
     <Content Include="Views\Halls\Delete.cshtml" />
     <Content Include="Views\Halls\Details.cshtml" />
     <Content Include="Views\Halls\Edit.cshtml" />
     <Content Include="Views\Halls\Index.cshtml" />
-    <Content Include="Views\Sessions\UploadDocument.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>

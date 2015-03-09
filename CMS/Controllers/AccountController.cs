@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CMS.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CMS.Controllers
 {
@@ -16,15 +17,26 @@ namespace CMS.Controllers
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
+        //public AccountController()
+
+        //{
+
+        //}
 
         public AccountController()
-        {
-        }
+                   : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext("DefaultConnection"))))
+       { 
+       }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        public AccountController(UserManager<ApplicationUser> userManager)
+        {
+            this.userManager = userManager;
         }
 
         public ApplicationUserManager UserManager
@@ -432,6 +444,7 @@ namespace CMS.Controllers
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
+        private UserManager<ApplicationUser> userManager;
 
         private IAuthenticationManager AuthenticationManager
         {

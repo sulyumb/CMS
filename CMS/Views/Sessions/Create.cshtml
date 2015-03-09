@@ -8,10 +8,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Session</h4>
         <hr />
@@ -125,7 +125,7 @@
             <div class="col-md-10">
                 @Html.DisplayFor(x => x.Instructors)
                 @Html.EditorFor(x => x.Instructors)
-                @Html.ValidationMessageFor(x => x.Instructors, "" , new { @class = "text-danger" })
+                @Html.ValidationMessageFor(x => x.Instructors, "", new { @class = "text-danger" })
             </div>
         </div>
 

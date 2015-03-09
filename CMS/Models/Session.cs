@@ -108,6 +108,18 @@ namespace CMS.Models
         public virtual ICollection<Instructor> Instructors { get; set; }
 
         public virtual ICollection<Hall> Halls { get; set; }
-  
+
+        public static List<Disciplines> StatusList()
+        {
+            return new List<Disciplines>
+        {
+              Session.Disciplines.Anatomy,
+              Session.Disciplines.Cardiology,
+              Session.Disciplines.Histology
+         };
+        }
     }
+
+
+       
 }

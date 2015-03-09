@@ -12,7 +12,7 @@ namespace CMS.Controllers
 {
     public class HallsController : Controller
     {
-        private CMSContext db = new CMSContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Halls
         public ActionResult Index()

@@ -10,8 +10,6 @@ namespace CMS.Models
     {
 
 
-        
-
         public int HallID { get; set; }
         public string Room { get; set; }
 

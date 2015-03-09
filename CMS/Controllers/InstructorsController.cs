@@ -12,7 +12,7 @@ namespace CMS.Controllers
 {
     public class InstructorsController : Controller
     {
-        private CMSContext db = new CMSContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Instructors
         public ActionResult Index()

@@ -12,7 +12,7 @@ namespace CMS.Controllers
 {
     public class BlocksController : Controller
     {
-        private CMSContext db = new CMSContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Blocks
         public ActionResult Index()
