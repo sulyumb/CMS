@@ -157,15 +157,14 @@ namespace CMS.Controllers
         public ActionResult Create(SessionViewModel sessionViewModel)
         {
 
-            //var listValid = new List<SessionViewModel.Disciplines>() { Activity.StatusEnum.Open, Activity.StatusEnum.Rejected, Activity.StatusEnum.Accepted, Activity.StatusEnum.Started };
-            //return Enum.GetValues(typeof(Activity.StatusEnum)).Cast<Activity.StatusEnum>().Where(n => listValid.Contains(n));
-           
             if (ModelState.IsValid)
             {
-                var statusList = new List<SessionViewModel.Disciplines>() { SessionViewModel.Disciplines.Anatomy, SessionViewModel.Disciplines.Cardiology, SessionViewModel.Disciplines.Histology };
+                
+                 
                 var session = new Session
                 {
                     ActivitySubject = sessionViewModel.ActivitySubject,
+                    //ActivityT =(int)SessionViewModel.ActivityType.Lecture,
                     ActivityT = sessionViewModel.ActivityT,
                     Block = sessionViewModel.Block,
                     BlockID = sessionViewModel.BlockID,
@@ -176,14 +175,19 @@ namespace CMS.Controllers
                     Objectives = sessionViewModel.Objectives,
                     Theme = sessionViewModel.Theme,
                     Week_no = sessionViewModel.Week_no,
-                    Year = sessionViewModel.Year
-                   
+                    Year = sessionViewModel.Year,
+                    StatusT = sessionViewModel.StatusT,
+                    Descipline = sessionViewModel.Descipline
+                //from disc in SessionViewModel.Disciplines
+                  //               select disc 
+                     
                                    
                     };
+               
 
                 AddOrUpdateInstructors(session, sessionViewModel.Instructors);
                 AddOrUpdateHalls(session, sessionViewModel.Halls);
-
+               
                 db.Sessions.Add(session);
                 db.SaveChanges();
 
@@ -235,6 +239,7 @@ namespace CMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session session = db.Sessions.Include("Instructors").FirstOrDefault(x => x.SessionID == id);
+            //SessionViewModel sessionView = db.Sessions.Include("Instructors").FirstOrDefault(x => x.SessionID == id);
             //session = db.Sessions.Include("Halls").FirstOrDefault(x => x.SessionID == id);
             if (session == null)
             {

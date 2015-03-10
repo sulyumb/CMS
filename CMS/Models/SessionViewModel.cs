@@ -46,12 +46,12 @@ namespace CMS.Models
         //    RQ = 4
         //}
 
-        public enum Disciplines
-        {
-            Anatomy=0,
-            Histology=1,
-            Cardiology=2
-        }
+        //public enum Disciplines
+        //{
+        //    Anatomy =0,
+        //    Histology=1,
+        //    Cardiology=2
+        //}
 
         public SessionViewModel()
         {
@@ -62,44 +62,57 @@ namespace CMS.Models
         public int SessionID { get; set; }
 
         [DisplayName("Activity Subject")]
+        [Required]
         public string ActivitySubject { get; set; }
 
         [DisplayName("Year")]
+        [Required]
         public string Year { get; set; }
 
         [DisplayName("Week No")]
+        [Required]
         public int Week_no { get; set; }
 
 
         public int BlockID { get; set; }
         public virtual Block Block { get; set; }
 
+        [Required]
         public string Theme { get; set; }
 
         public DayOfWeek Day { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [Required]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
 
         [DisplayName("Start Time")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:t}")]
+        [Required]
         public DateTime StartTime { get; set; }
 
         [DisplayName("EndTime")]
         [DataType(DataType.Time)]
         [DisplayFormat(DataFormatString = "{0:t}")]
+        [Required]
         public DateTime EndTime { get; set; }
 
+        [DisplayFormat(NullDisplayText = "Select")]
         [DisplayName("Activity Type")]
-        public string ActivityT { get; set; }
+        [Required]
+        public Session.ActivityType ActivityT { get; set; }
 
+        [DisplayFormat(NullDisplayText = "Select")]
         [DisplayName("Status")]
-        public string StatusT { get; set; }
+        [Required]
+        public Session.StatusType StatusT { get; set; }
 
+        [DisplayFormat(NullDisplayText = "Select")]
         [DisplayName("Discipline")]
-        public Disciplines? Descipline { get; set; }
+        [Required]
+        public Session.Disciplines Descipline { get; set; }
       
         //to make string optional
         [DisplayFormat(ConvertEmptyStringToNull = false)]
@@ -109,15 +122,15 @@ namespace CMS.Models
 
         public virtual ICollection<AssignedInstructorData> Instructors { get; set; }
 
-        public static List<Disciplines> StatusList()
-        {
-            return new List<Disciplines>
-        {
+        //public static List<Disciplines> StatusList()
+        //{
+        //    return new List<Disciplines>
+        //{
 
-              SessionViewModel.Disciplines.Anatomy,
-              SessionViewModel.Disciplines.Cardiology,
-              SessionViewModel.Disciplines.Histology
-         };
-        }
+        //      SessionViewModel.Disciplines.Anatomy,
+        //      SessionViewModel.Disciplines.Cardiology,
+        //      SessionViewModel.Disciplines.Histology
+        // };
+        //}
     }
 }
