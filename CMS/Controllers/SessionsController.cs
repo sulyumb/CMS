@@ -47,7 +47,6 @@ namespace CMS.Controllers
                 assignedInstructors.Add(new AssignedInstructorData
                 {
                     InstructorID = item.InstructorID,
-
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     JoinedDate = item.JoinedDate,
@@ -96,7 +95,7 @@ namespace CMS.Controllers
             }
             else
             {
-                //new hall
+                
                 foreach (var assignedInstructor in assignedInstructors.Where(w => w.Assigned))
                 {
                     var instructor = new Instructor { InstructorID = assignedInstructor.InstructorID };
@@ -199,36 +198,7 @@ namespace CMS.Controllers
             return View(sessionViewModel);
         }
 
-        //private void AddOrUpdateCourses(UserProfile userProfile, IEnumerable<AssignedCourseData> assignedCourses)
-        //{
-        //    if (assignedCourses == null) return;
-
-        //    if (userProfile.UserProfileID != 0)
-        //    {
-        //        // Existing user - drop existing courses and add the new ones if any
-        //        foreach (var course in userProfile.Courses.ToList())
-        //        {
-        //            userProfile.Courses.Remove(course);
-        //        }
-
-        //        foreach (var course in assignedCourses.Where(c => c.Assigned))
-        //        {
-        //            userProfile.Courses.Add(db.Courses.Find(course.CourseID));
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // New user
-        //        foreach (var assignedCourse in assignedCourses.Where(c => c.Assigned))
-        //        {
-        //            var course = new Course { CourseID = assignedCourse.CourseID };
-        //            db.Courses.Attach(course);
-        //            userProfile.Courses.Add(course);
-        //        }
-        //    }
-        //}
-
-        // GET: Sessions/Edit/5
+              // GET: Sessions/Edit/5
         public ActionResult Edit(int? id)
         {
             var allInstructors = db.Instructors.ToList();
@@ -239,13 +209,13 @@ namespace CMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Session session = db.Sessions.Include("Instructors").FirstOrDefault(x => x.SessionID == id);
-            //SessionViewModel sessionView = db.Sessions.Include("Instructors").FirstOrDefault(x => x.SessionID == id);
-            //session = db.Sessions.Include("Halls").FirstOrDefault(x => x.SessionID == id);
             if (session == null)
             {
                 return HttpNotFound();
             }
+            
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", session.BlockID);
+            
             var sessionViewModel = session.ToViewModel(allInstructors, allHalls);
             //var sessionViewModel = new SessionViewModel { Instructors = PopulateInstructorData(), Halls = PopulateHallData() };
             return View(sessionViewModel);
@@ -259,18 +229,22 @@ namespace CMS.Controllers
         //public ActionResult Edit([Bind(Include = "SessionID,ActivitySubject,Year,Week_no,BlockID,Theme,Day,Date,StartTime,EndTime,ActivityT,StatusT,Descipline,Objectives")] Session session)
         public ActionResult Edit(SessionViewModel sessionViewModel)
         {
+            //Session session1 = db.Sessions.Find(sessionViewModel.SessionID); ;
+            //session1.SessionID = sessionViewModel.SessionID;
             if (ModelState.IsValid)
             {
+
                 var originalsession = db.Sessions.Find(sessionViewModel.SessionID);
+              
                 AddOrUpdateInstructors(originalsession, sessionViewModel.Instructors);
                 AddOrUpdateHalls(originalsession, sessionViewModel.Halls);
-                //db.Entry(originalsession).State = EntityState.Modified;
-                //db.Entry(originalUserProfile).CurrentValues.SetValues(userProfileViewModel);
+           
                 db.Entry(originalsession).CurrentValues.SetValues(sessionViewModel);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
+
             ViewBag.BlockID = new SelectList(db.Blocks, "ID", "Name", sessionViewModel.BlockID);
             return View(sessionViewModel);
         }

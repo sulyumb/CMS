@@ -9,19 +9,13 @@ namespace CMS.Models
     {
         public static SessionViewModel ToViewModel(this Session session)
         {
-            //var allSomeEnumValues = (Session.ActivityType[])Enum.GetValues(typeof(Session.ActivityType));
-            //string[] enumList = Enum.GetNames(typeof(Session.ActivityType));
-            //var activityList = from n in enumList select n;
-           // Session.ActivityType[] activities = (Session.ActivityType[])Enum.GetValues(typeof(Session.ActivityType[]));
-           // var values = Enum.GetValues(typeof()).Cast<Session.ActivityType>();
-           // var items =
-           //values.Select(n => n);
+
             var sessionViewModel = new SessionViewModel
             {
 
                 Day = session.Day,
                 ActivitySubject = session.ActivitySubject,
-                ActivityT = session.ActivityT ,
+                ActivityT = session.ActivityT,
                 StartTime = session.StartTime,
                 EndTime = session.EndTime,
                 SessionID = session.SessionID,
@@ -33,19 +27,19 @@ namespace CMS.Models
                 Theme = session.Theme,
                 StatusT = session.StatusT,
                 Descipline = session.Descipline
-                             
+
             };
 
             foreach (var instructor in session.Instructors)
             {
                 sessionViewModel.Instructors.Add(new AssignedInstructorData
                 {
-                     FirstName = instructor.FirstName,
-                     LastName = instructor.LastName,
-                     InstructorID = instructor.InstructorID,
-                     JoinedDate = instructor.JoinedDate,
-                     Speciality = instructor.Speciality,
-                     Assigned = true
+                    FirstName = instructor.FirstName,
+                    LastName = instructor.LastName,
+                    InstructorID = instructor.InstructorID,
+                    JoinedDate = instructor.JoinedDate,
+                    Speciality = instructor.Speciality,
+                    Assigned = true
                 });
 
             };
@@ -54,73 +48,48 @@ namespace CMS.Models
             {
                 sessionViewModel.Halls.Add(new AssignedHallData
                 {
-                 HallID = hall.HallID,
-                 Room = hall.Room,
-                 SeatNo = hall.SeatNo,
-                 Assigned = true
+                    HallID = hall.HallID,
+                    Room = hall.Room,
+                    SeatNo = hall.SeatNo,
+                    Assigned = true
                 });
             };
 
             return sessionViewModel;
 
         }
+        public static CourseViewModel ToCViewModel(this Course course,ICollection<Instructor> allDbInstructor)
+        {
 
-        //public static SessionViewModel ToViewModel(this Session session, ICollection<Instructor> allDbInstructors, ICollection<Hall> allDbHalls)
-        //{
-        //    var sessionViewModel = new SessionViewModel
-        //    {
-        //        Day = session.Day,
-        //        ActivitySubject = session.ActivitySubject,
-        //        ActivityT = session.ActivityT,
-        //        StartTime = session.StartTime,
-        //        EndTime = session.EndTime,
-        //        SessionID = session.SessionID,
-        //        StatusT = session.StatusT,
-        //        Descipline = session.Descipline,
-        //        BlockID = session.BlockID,
-        //        Block = session.Block,
-        //        Date = session.Date,
-        //        Year = session.Year,
-        //        Week_no = session.Week_no,
-        //        Theme = session.Theme
-        //    };
+            var courseViewModel = new CourseViewModel
+            {
+                 CourseName = course.CourseName,
+                 CourseCode = course.CourseCode
 
-        //    ICollection<AssignedInstructorData> allInstructors = new List<AssignedInstructorData>();
-        //    ICollection<AssignedHallData> allHalls = new List<AssignedHallData>();
+            };
 
-        //    foreach (var c in allDbInstructors)
-        //    {
-        //        // Create new AssignedCourseData for each course and set Assigned = true if user already has course
-        //        var assignedInstructor = new AssignedInstructorData 
-        //        {
-        //            InstructorID = c.InstructorID,
-        //            FirstName = c.FirstName,
-        //            LastName = c.LastName,
-        //            JoinedDate = c.JoinedDate,
-        //            Speciality = c.Speciality,
-        //            Assigned = session.Instructors.FirstOrDefault(x => x.InstructorID  == c.InstructorID) != null
-        //        };
+            ICollection<AssignedInstructorData> allInstructors = new List<AssignedInstructorData>();
 
-        //        allInstructors.Add(assignedInstructor);
-        //    }
+            foreach (var instructor in allDbInstructor)
+            {
+                var assignedInstructor = new AssignedInstructorData
+                {
+                    FirstName = instructor.FirstName,
+                    LastName = instructor.LastName,
+                    InstructorID = instructor.InstructorID,
+                    JoinedDate = instructor.JoinedDate,
+                    Speciality = instructor.Speciality,
+                    Assigned= course.Instructors.FirstOrDefault(x => x.InstructorID == instructor.InstructorID) != null
+                };
+                allInstructors.Add(assignedInstructor);
+               
+            };
 
-        //    foreach (var c in allDbHalls)
-        //    {
-        //        var assignedHall = new AssignedHallData
-        //        {
-        //            HallID = c.HallID,
-        //            Room = c.Room,
-        //            SeatNo = c.SeatNo,
-        //            Assigned = session.Halls.FirstOrDefault(x => x.HallID == c.HallID) != null
-        //        };
-        //        allHalls.Add(assignedHall);
-        //    }
+            courseViewModel.Instructors = allInstructors;
+            return courseViewModel;
+        }
 
-        //    sessionViewModel.Instructors = allInstructors;
-        //    sessionViewModel.Halls = allHalls;
-
-        //    return sessionViewModel ;
-        //}
+      
 
         public static SessionViewModel ToViewModel(this Session session, ICollection<Instructor> allDbInstructors, ICollection<Hall> allDbHalls)
         {

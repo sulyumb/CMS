@@ -37,6 +37,7 @@ namespace CMS.Models
         //[DisplayColumn(Session.ActivitySubject.ToString)]
         public virtual ICollection<Session> Sessions { get; set; }
 
+        public virtual ICollection<Course> Courses { get; set; }
       
     }
 }

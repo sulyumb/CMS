@@ -86,19 +86,19 @@ namespace CMS.Models
         public DayOfWeek Day { get; set; }
 
         [DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode =true)]
         [Required]
         public DateTime Date { get; set; }
 
         [DisplayName("Start Time")]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:t}")]
+        [DisplayFormat(DataFormatString = "{0:t}",ApplyFormatInEditMode =true)]
         [Required]
         public DateTime StartTime { get; set; }
 
         [DisplayName("EndTime")]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:t}")]
+        [DisplayFormat(DataFormatString = "{0:t}",ApplyFormatInEditMode =true )]
         [Required]
         public DateTime EndTime { get; set; }
 
