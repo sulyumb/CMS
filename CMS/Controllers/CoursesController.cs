@@ -107,6 +107,7 @@ namespace CMS.Controllers
             {
                 var course = new Course
                 {
+                    CourseID = courseViewModel.CourseID,
                     CourseName = courseViewModel.CourseName,
                     CourseCode = courseViewModel.CourseCode,
 

@@ -63,6 +63,7 @@ namespace CMS.Models
 
             var courseViewModel = new CourseViewModel
             {
+                 CourseID = course.CourseID,
                  CourseName = course.CourseName,
                  CourseCode = course.CourseCode
 
