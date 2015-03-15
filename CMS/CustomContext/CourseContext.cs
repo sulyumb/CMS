@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using CMS.Models;
 
-namespace CMS.Models
+namespace CMS.CustomContext
 {
     public class CourseContext : ApplicationDbContext
     {

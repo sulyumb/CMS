@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CMS.Models;
+using CMS.ViewModels;
+using CMS.AssignedDataM2M;
 
-namespace CMS.Models
+namespace CMS.ViewModels
 {
     public static class ViewModelHelpers
     {

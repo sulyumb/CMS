@@ -180,26 +180,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AdminViewModel.cs" />
-    <Compile Include="Models\AssignedCoursesData.cs" />
-    <Compile Include="Models\AssignedHallData.cs" />
-    <Compile Include="Models\AssignedInstructorData.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
+    <Compile Include="AssignedDataM2M\AssignedCoursesData.cs" />
+    <Compile Include="AssignedDataM2M\AssignedHallData.cs" />
+    <Compile Include="AssignedDataM2M\AssignedInstructorData.cs" />
     <Compile Include="Models\Block.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\CourseContext.cs" />
-    <Compile Include="Models\CourseViewModel.cs" />
+    <Compile Include="CustomContext\CourseContext.cs" />
+    <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Hall.cs" />
-    <Compile Include="Models\HallViewModel.cs" />
+    <Compile Include="ViewModels\HallViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Instructor.cs" />
-    <Compile Include="Models\InstructorViewModel.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="ViewModels\InstructorViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModels.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Session.cs" />
-    <Compile Include="Models\SessionInitializer.cs" />
-    <Compile Include="Models\SessionViewModel.cs" />
-    <Compile Include="Models\ViewModelHelpers.cs" />
+    <Compile Include="DBInitializers\SessionInitializer.cs" />
+    <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -293,9 +294,11 @@
     <Content Include="Views\Courses\Details.cshtml" />
     <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
+    <Content Include="Views\Sessions\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UploadedFolder\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

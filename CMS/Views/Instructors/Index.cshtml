@@ -23,6 +23,9 @@
         <th>
             @Html.DisplayNameFor(model => model.JoinedDate)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sessions)
+        </th>
         <th></th>
     </tr>
 
@@ -39,6 +42,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.JoinedDate)
+        </td>
+        <td>
+            @foreach (var s in item.Sessions)
+            {
+            @Html.DisplayFor(modelItem => s.ActivitySubject)
+            }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.InstructorID }) |

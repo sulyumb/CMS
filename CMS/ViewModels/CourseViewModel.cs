@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using CMS.Models;
+using CMS.AssignedDataM2M;
 
-namespace CMS.Models
+namespace CMS.ViewModels
 {
     public class CourseViewModel
     {

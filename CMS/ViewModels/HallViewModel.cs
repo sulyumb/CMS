@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using CMS.Models;
 
-namespace CMS.Models
+namespace CMS.ViewModels
 {
     public class HallViewModel
     {

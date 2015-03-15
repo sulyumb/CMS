@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CMS.Models;
 
-namespace CMS.Models
+namespace CMS.AssignedDataM2M
 {
     public class AssignedInstructorData
     {

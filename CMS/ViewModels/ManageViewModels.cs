@@ -2,8 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using CMS.Models;
 
-namespace CMS.Models
+namespace CMS.ViewModels
 {
     public class IndexViewModel
     {

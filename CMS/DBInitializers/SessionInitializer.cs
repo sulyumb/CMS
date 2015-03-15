@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using CMS.Models;
 
-namespace CMS.Models
+namespace CMS.DBInitializers
 {
     public class SessionInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
