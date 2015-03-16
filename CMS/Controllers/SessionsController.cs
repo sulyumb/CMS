@@ -14,6 +14,8 @@ using System.IO;
 using System.Data.OleDb;
 using System.IO.Path;
 using System.Data.SqlClient;
+using System.Xml;
+using System.Configuration;
 
 namespace CMS.Controllers
 {
@@ -330,92 +332,121 @@ namespace CMS.Controllers
             //HttpFileCollection files;
             //files = Request.Files["fileupload1"].ContentLength = "";
             //Byte fileSize = Request.Files["fileupload1"].ContentLength = "";
-            HttpPostedFileBase files = Request.Files["fileupload1"];
-            var excelConnectionString = "";
+            HttpPostedFileBase files = Request.Files["FileUpload1"];
+            //string excelConnectionString = "";
             if (files.ContentLength != 0)
             {
-                string extension = GetExtension(Request.Files["FileUpload1"].FileName);
-                //string path1 = string.Format("{0}/{1}", Server.MapPath("~/Content/UploadedFolder"), Request.Files["FileUpload1"].FileName);
-                var path2 = Path.Combine(Server.MapPath("~/Content/UploadedFolder"), Request.Files["fileupload1"].FileName);
+                string extension = GetExtension(files.FileName);
+                //string path2 = string.Format("{0}/{1}", Server.MapPath("~/Content/UploadedFolder"), Request.Files["FileUpload1"].FileName);
+                var path2 = Path.Combine(Server.MapPath("~/Content/UploadedFolder/"),files.FileName+extension);
                 //if (System.IO.File.Exists(path2))
                 //    System.IO.File.Delete(path2);
 
                 Request.Files["FileUpload1"].SaveAs(path2);
-                string sqlConnectionString = @"Data Source=Data Source=UJC-00256\SQLEXPRESS;Initial Catalog=CMS;Integrated Security=True";
+                string sqlConnectionString = @"Data Source=UJC-00256\SQLEXPRESS;Initial Catalog=CMS;Integrated Security=True";
+                //string path3 = @"C:\Users\almozainisu\Desktop\book1.xlsx";
+               //if (Path.GetExtension(path2).ToLower() == ".xslx")
+                 //{
+                     //Provider = Microsoft.ACE.OLEDB.12.0; Data Source = c:\myFolder\myExcel2007file.xlsx;
+                      //Extended Properties = "Excel 12.0 Xml;HDR=YES";
+                //string excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source='"+ path3 +"';Extended Properties = Excel 12.0;HDR=YES;";
 
-                if (Path.GetExtension(path2).ToLower() == ".xslx")
-                {
-                    excelConnectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0}; Extended Properties=Excel 12.0;", path2);
-                }
-                else
-                {
-                  
-                    excelConnectionString = string.Format(" Provider = Microsoft.ACE.OLEDB.12.0; Data Source ={0}; Extended Properties = Excel 12.0", path2);
-                    //excelConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;data source={0}; Extended Properties=Excel 8.0;", path2);
-                }
+                string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path2 + ";" + "Extended Properties=" + "\"" + "Excel 12.0;HDR=YES;" + "\"";
+                //excelConnectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path2 + ";Extended Properties='Excel 8.0;HDR=Yes'");
+                //}
+                ////else
+                //{
+
+                //    excelConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;data source={0}; Extended Properties=Excel 8.0;", path2);
+                //    //excelConnectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;data source={0}; Extended Properties=Excel 8.0;", path2);
+                //}
                 //Create connection string to Excel work book
                 //excelConnectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path2 + ";Extended Properties=Excel 12.0;Persist Security Info=False";
                 //Create Connection to Excel work book
-                OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                OleDbConnection excelConnection = new OleDbConnection(connectionString);
                 //Create OleDbCommand to fetch data from Excel
-                OleDbCommand cmd = new OleDbCommand("Select [SessionID],[ActivitySubject],[Year],[Week_no],[BlockID],[Theme],[StartTime],[EndTime],[ActivityT],[StatusT],[Descipline],[Objectives] from [Sheet1$]", excelConnection);
+                string query = "SELECT [HallID],[Room],[SeatNo] From [Sheet1$]";
+                OleDbCommand cmd = new OleDbCommand(query, excelConnection);
+                //try
+                //{
+                //    cmd.Connection.Open();
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine(e.Message);
+                //}
+               
+                    excelConnection.Open();
+                  
+                    OleDbDataReader dReader;
+                    dReader = cmd.ExecuteReader();
 
-                excelConnection.Open();
-                OleDbDataReader dReader;
-                dReader = cmd.ExecuteReader();
+                    SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
+                    //Give your Destination table name
+                    sqlBulk.DestinationTableName = "Halls";
+                    sqlBulk.WriteToServer(dReader);
 
-                SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
-                //Give your Destination table name
-                sqlBulk.DestinationTableName = "Sessions";
-                sqlBulk.WriteToServer(dReader);
-                excelConnection.Close();
+               
+                   excelConnection.Close();
+                  
+                //    OleDbDataReader dReader;
+                //dReader = cmd.ExecuteReader();
 
+                //SqlBulkCopy sqlBulk = new SqlBulkCopy(sqlConnectionString);
+                ////Give your Destination table name
+                //sqlBulk.DestinationTableName = "Sessions";
+                //sqlBulk.WriteToServer(dReader);
+                //excelConnection.Close();
+                
                 // SQL Server Connection String
 
 
             }
 
             return RedirectToAction("Import");
+
         }
 
-        /*
-             public ActionResult List()
- 
-        {
- 
-            var uploadedFiles = new List<UploadedFile>();
- 
- 
- 
-            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
- 
- 
- 
-            foreach(var file in files)
- 
-            {
-               var fileInfo = new FileInfo(file);
- 
- 
- 
-                var uploadedFile = new UploadedFile() {Name = Path.GetFileName(file)};
- 
-                uploadedFile.Size = fileInfo.Length;
- 
- 
- 
-                uploadedFile.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
 
-                uploadedFiles.Add(uploadedFile);
+
+            /*
+                 public ActionResult List()
+
+            {
+
+                var uploadedFiles = new List<UploadedFile>();
+
+
+
+                var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
+
+
+
+                foreach(var file in files)
+
+                {
+                   var fileInfo = new FileInfo(file);
+
+
+
+                    var uploadedFile = new UploadedFile() {Name = Path.GetFileName(file)};
+
+                    uploadedFile.Size = fileInfo.Length;
+
+
+
+                    uploadedFile.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
+
+                    uploadedFiles.Add(uploadedFile);
+
+                }
+
+
+
+                return View(uploadedFiles);
 
             }
-
- 
-
-            return View(uploadedFiles);
-
+    */
         }
-*/
     }
-}
 
